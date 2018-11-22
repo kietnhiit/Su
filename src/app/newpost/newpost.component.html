@@ -1,0 +1,35 @@
+<div class="editor-page">
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-10 offset-md-1 col-xs-12">
+          <ul *ngIf='errors' class="error-messages">
+              <li *ngFor="let err of errors">{{err}}</li>
+            </ul>
+        <form>
+          <fieldset>
+            <fieldset class="form-group">
+                <input type="text" class="form-control form-control-lg" [(ngModel)]="post.title" [ngModelOptions]="{standalone: true}" placeholder="Article Title">
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="post.description" [ngModelOptions]="{standalone: true}" placeholder="What's this article about?">
+            </fieldset>
+            <fieldset class="form-group">
+                <textarea class="form-control" rows="8" [(ngModel)]="post.body" [ngModelOptions]="{standalone: true}" placeholder="Write your article (in markdown)"></textarea>
+            </fieldset>
+            <fieldset class="form-group">
+                <input type="text" class="form-control" [(ngModel)]="tagList" [ngModelOptions]="{standalone: true}" placeholder="Enter tags"><div class="tag-list"></div>
+            </fieldset>
+            <button *ngIf="!isUpdate" [disabled]="isAdding" class="btn btn-lg pull-xs-right btn-primary" (click)="addPost()" type="button">
+                Publish Article
+            </button>
+            <button *ngIf="isUpdate" [disabled]="isAdding" class="btn btn-lg pull-xs-right btn-primary" (click)="updatePost()" type="button">
+                    Update Article
+                </button>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

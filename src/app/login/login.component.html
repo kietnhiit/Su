@@ -1,0 +1,36 @@
+<div class="auth-page">
+    <div class="container page">
+      <div class="row">
+  
+        <div class="col-md-6 offset-md-3 col-xs-12">
+          <h1 class="text-xs-center">{{title}}</h1>
+          <p class="text-xs-center">
+            <a *ngIf="type === 'login'" [routerLink]="['/register']">{{question}}</a>
+            <a *ngIf="type === 'register'" [routerLink]="['/login']">{{question}}</a>
+          </p>
+  
+          <ul *ngIf='errors' class="error-messages">
+            <li *ngFor="let err of errors">{{err}}</li>
+          </ul>
+  
+          <form>
+            <ng-container *ngIf="title === 'Sign up'">
+                <fieldset class="form-group">
+                    <input [(ngModel)]="loginModel.name" [ngModelOptions]="{standalone: true}" class="form-control form-control-lg" type="text" placeholder="Your Name">
+                </fieldset>
+            </ng-container>
+            <fieldset class="form-group">
+              <input [(ngModel)]="loginModel.email" [ngModelOptions]="{standalone: true}" class="form-control form-control-lg" type="text" placeholder="Email">
+            </fieldset>
+            <fieldset class="form-group">
+              <input [(ngModel)]="loginModel.password" [ngModelOptions]="{standalone: true}" class="form-control form-control-lg" type="password" placeholder="Password">
+            </fieldset>
+            <button (click)="login()" class="btn btn-lg btn-primary pull-xs-right">
+                {{title}}
+            </button>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  </div>

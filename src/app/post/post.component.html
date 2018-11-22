@@ -1,0 +1,130 @@
+<div class="article-page">
+
+  <div class="banner">
+    <div class="container">
+
+      <h1>{{post.title}}</h1>
+
+      <div class="article-meta">
+        <a href=""><img src="{{post.author.image}}" /></a>
+        <div class="info">
+          <a href="/profile/{{post.author.username}}" class="author">{{post.author.username}}</a>
+          <span class="date">{{post.createdAt | date: 'longDate'}}</span>
+        </div>
+        <span [hidden]="canModify">
+            <app-follow-button
+              [hidden]="isUser"
+              [user]="post.author"
+              (clickFollow)="clickFollowing($event)">
+            </app-follow-button>
+              &nbsp;&nbsp;
+            <app-favorite-button
+              [post]="post"
+              (onclick)="onCLickFavorited($event)">
+              {{ post.favorited ? 'Unfavorite' : 'Favorite' }} Post <span class="counter">({{ post.favoritesCount }})</span>
+            </app-favorite-button>
+        </span>
+
+        <span [hidden]="!canModify">
+            <a class="btn btn-sm btn-outline-secondary"
+               [routerLink]="['/newpost', post.slug]">
+              <i class="ion-edit"></i> Edit Article
+            </a>
+            &nbsp;
+            <button class="btn btn-sm btn-outline-danger"
+              [ngClass]="{disabled: isDeleting}"
+              (click)="deletePost()">
+              <i class="ion-trash-a"></i> Delete Article
+            </button>
+          </span>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container page">
+
+    <div class="row article-content">
+      <div class="col-md-12">
+          <p [innerHtml]="sanitizerHtmlFormat(post.body)"></p>
+      </div>
+      <ul class="tag-list">
+          <li *ngFor="let tag of post.tagList"
+            class="tag-default tag-pill tag-outline">
+            {{ tag }}
+          </li>
+        </ul>
+    </div>
+
+    <hr />
+
+    <div class="article-actions">
+      <div class="article-meta">
+        <a href="profile.html"><img src="{{post.author.image}}" /></a>
+        <div class="info">
+          <a href="" class="author">{{post.author.username}}</a>
+          <span class="date">{{post.createdAt | date: 'longDate'}}</span>
+        </div>
+        <span [hidden]="canModify">
+        <app-follow-button
+            [hidden]="isUser"
+            [user]="post.author"
+            (clickFollow)="clickFollowing($event)">
+          </app-follow-button>
+        &nbsp;
+        <app-favorite-button
+          [post]="post"
+          (onclick)="onCLickFavorited($event)">
+          {{ post.favorited ? 'Unfavorite' : 'Favorite' }} Post <span class="counter">({{ post.favoritesCount }})</span>
+        </app-favorite-button>
+      </span>
+        <span [hidden]="!canModify">
+          <a class="btn btn-sm btn-outline-secondary"
+             [routerLink]="['/newpost', post.slug]">
+            <i class="ion-edit"></i> Edit Article
+          </a>
+          &nbsp;
+          <button class="btn btn-sm btn-outline-danger"
+            [ngClass]="{disabled: isDeleting}"
+            (click)="deletePost()">
+            <i class="ion-trash-a"></i> Delete Article
+          </button>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-md-8 offset-md-2">
+        <div *ngIf="currentUser">
+            <form class="card comment-form">
+              <div class="card-block">
+                <textarea [(ngModel)]="commentData" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+              </div>
+              <div class="card-footer">
+                <img src="{{currentUser.image}}" class="comment-author-img" />
+                <button [disabled]="isPosting" class="btn btn-sm btn-primary" (click)="addComment()">
+                  Post Comment
+                </button>
+              </div>
+            </form>
+        </div>
+
+        <div *ngIf="!currentUser">
+            <a [routerLink]="['/login']">Sign in</a> or <a [routerLink]="['/register']">sign up</a> to add comments on this post.
+        </div>
+
+        <app-post-comment
+          *ngFor="let comment of comments"
+          [comment]="comment"
+          (deleteComment)="onDeleteComment(comment)">
+        </app-post-comment>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

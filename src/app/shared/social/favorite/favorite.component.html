@@ -1,0 +1,8 @@
+<button
+    (click)="onClickFavorite()"
+    [ngClass]="{'disabled': isFavoriting,
+                'btn-outline-primary': !post.favorited,
+                'btn-primary': post.favorited }"
+    class="btn btn-sm">
+    <i class="ion-heart"></i> <ng-content></ng-content>
+  </button>

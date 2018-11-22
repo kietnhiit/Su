@@ -1,0 +1,63 @@
+<nav class="navbar navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">conduit</a>
+        <ul class="nav navbar-nav pull-xs-right" *ngIf="!isLogin">
+            <li class="nav-item">
+                <!-- Add "active" class when you're on that page" -->
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/']">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/login']">Sign in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/register']">Sign up</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav pull-xs-right" *ngIf="isLogin">
+            <li class="nav-item">
+                <!-- Add "active" class when you're on that page" -->
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/']">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/newpost']">
+                    <i class="ion-compose"></i>&nbsp;New Post
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/setting']">
+                    <i class="ion-gear-a"></i>&nbsp;Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['/profile', user.username]">
+                    <img src="{{user.image}}" class="user-pic"/>
+                    {{user.username}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [routerLink]="['/profile', user.username]">My Articles</a> -->

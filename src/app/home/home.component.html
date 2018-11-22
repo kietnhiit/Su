@@ -1,0 +1,80 @@
+<div class="home-page">
+
+    <div class="banner" *ngIf="!isLoged">
+      <div class="container">
+        <h1 class="logo-font">conduit</h1>
+        <p>A place to share your knowledge.</p>
+      </div>
+    </div>
+  
+    <div class="container page">
+      <div class="row">
+  
+        <div class="col-md-9">
+          <div class="feed-toggle">
+            <ul class="nav nav-pills outline-active">
+              <li class="nav-item" *ngIf="isLoged">
+                <a class="nav-link" [ngClass]="{'active disabled': typeFeed === 'Your'}" (click)="changeTab('Your')">Your Feed</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active disabled': typeFeed === 'Global'}" (click)="changeTab('Global')">Global Feed</a>
+              </li>
+              <li *ngIf="tagName" class="nav-item">
+                  <a class="nav-link active">#{{tagName}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="article-preview" *ngIf="posts.length === 0 && !isLoading">No articles are here... yet.</div>
+          <ng-container *ngFor="let post of posts">
+              <div class="article-preview">
+                  <div class="article-meta">
+                    <a href="/profile/{{post.author.username}}">
+                      <img *ngIf="post.author.image" [src]="post.author.image" />
+                      <img *ngIf="!post.author.image"/>
+                    </a>
+                    <div class="info">
+                      <a href="/profile/{{post.author.username}}" class="author">{{post.author.username}}</a>
+                      <span class="date">{{post.createdAt | date: 'longDate'}}</span>
+                    </div>
+                    <app-favorite-button
+                      class="pull-xs-right"
+                      [post]="post"
+                      (onclick)="onCLickFavorited($event)">
+                      {{post.favoritesCount}}
+                    </app-favorite-button>
+                  </div>
+                  <a href="/post/{{post.slug}}" class="preview-link">
+                    <h1>{{ post.title }}</h1>
+                    <p>{{ post.description }}</p>
+                    <span>Read more...</span>
+                    <ul class="tag-list">
+                        <li *ngFor="let tag of post.tagList" class="tag-default tag-pill tag-outline ng-binding ng-scope" ng-repeat="tag in $ctrl.article.tagList">
+                            {{tag}}
+                          </li>
+                    </ul>
+                  </a>
+                </div>
+          </ng-container>
+          <div class="article-preview" *ngIf="isLoading">Loading .......</div>
+          <nav>
+              <ul class="pagination">
+                  <li class="page-item" *ngFor="let pageNumber of totals">
+                    <a (click)="goToPage(pageNumber)" class="page-link" [ngClass]="{'active': pageNumber == currentPage}" >{{pageNumber}}</a>
+                  </li>
+                </ul>
+          </nav>
+        </div>
+        <div class="col-md-3">
+          <div class="sidebar">
+            <p>Popular Tags</p>
+  
+            <div class="tag-list">
+                <a (click)="tagClick(tag)" *ngFor="let tag of tags" class="tag-pill tag-default">{{tag}}</a>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>

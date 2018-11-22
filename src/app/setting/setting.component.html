@@ -1,0 +1,42 @@
+<div class="settings-page">
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">Your Settings</h1>
+        <ul *ngIf='errors' class="error-messages">
+          <li *ngFor="let err of errors">{{err}}</li>
+        </ul>
+        <form>
+          <fieldset>
+              <fieldset class="form-group">
+                <input class="form-control" type="text" placeholder="URL of profile picture" [(ngModel)]="data.image" [ngModelOptions]="{standalone: true}">
+              </fieldset>
+              <fieldset class="form-group">
+                <input class="form-control form-control-lg" type="text" placeholder="Your Name" [(ngModel)]="data.username" [ngModelOptions]="{standalone: true}">
+              </fieldset>
+              <fieldset class="form-group">
+                <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you" [(ngModel)]="data.bio" [ngModelOptions]="{standalone: true}"></textarea>
+              </fieldset>
+              <fieldset class="form-group">
+                <input class="form-control form-control-lg" type="text" placeholder="Email" [(ngModel)]="data.email" [ngModelOptions]="{standalone: true}">
+              </fieldset>
+              <fieldset class="form-group">
+                <input class="form-control form-control-lg" type="password" placeholder="Password" [(ngModel)]="data.password" [ngModelOptions]="{standalone: true}">
+              </fieldset>
+              <button [disabled]="isAdding" class="btn btn-lg btn-primary pull-xs-right" (click)="update()">
+                Update Settings
+              </button>
+          </fieldset>
+        </form>
+      </div>
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <hr>
+        <button class="btn btn-outline-danger xs-pull-right" (click)=logOut()>
+          Or click here to logout.
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
