@@ -6,9 +6,9 @@
       <h1>{{post.title}}</h1>
 
       <div class="article-meta">
-        <a href=""><img src="{{post.author.image}}" /></a>
+        <a [routerLink]="['/profile/', post.author.username]"><img src="{{post.author.image}}" /></a>
         <div class="info">
-          <a href="/profile/{{post.author.username}}" class="author">{{post.author.username}}</a>
+          <a [routerLink]="['/profile/', post.author.username]" class="author">{{post.author.username}}</a>
           <span class="date">{{post.createdAt | date: 'longDate'}}</span>
         </div>
         <span [hidden]="canModify">
@@ -61,9 +61,9 @@
 
     <div class="article-actions">
       <div class="article-meta">
-        <a href="profile.html"><img src="{{post.author.image}}" /></a>
+        <a [routerLink]="['/profile/', post.author.username]"><img src="{{post.author.image}}" /></a>
         <div class="info">
-          <a href="" class="author">{{post.author.username}}</a>
+          <a [routerLink]="['/profile/', post.author.username]" class="author">{{post.author.username}}</a>
           <span class="date">{{post.createdAt | date: 'longDate'}}</span>
         </div>
         <span [hidden]="canModify">

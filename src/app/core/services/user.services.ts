@@ -1,11 +1,9 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { HttpService } from './http.services';
 import { LoginModel } from '../models/login.model';
 import { map } from 'rxjs/operators';
 import { JWTService } from './jwt.services';
-import { User } from '../entity';
 
 
 

@@ -14,10 +14,10 @@
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item" *ngIf="isLoged">
-                <a class="nav-link" [ngClass]="{'active disabled': typeFeed === 'Your'}" (click)="changeTab('Your')">Your Feed</a>
+                <a class="nav-link" [ngClass]="{'active disabled': requestOpts.type === 'Your'}" (click)="changeTab('Your')">Your Feed</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active disabled': typeFeed === 'Global'}" (click)="changeTab('Global')">Global Feed</a>
+                <a class="nav-link" [ngClass]="{'active disabled': requestOpts.type === 'Global'}" (click)="changeTab('Global')">Global Feed</a>
               </li>
               <li *ngIf="tagName" class="nav-item">
                   <a class="nav-link active">#{{tagName}}</a>
@@ -28,12 +28,12 @@
           <ng-container *ngFor="let post of posts">
               <div class="article-preview">
                   <div class="article-meta">
-                    <a href="/profile/{{post.author.username}}">
+                    <a [routerLink]="['profile/', post.author.username]">
                       <img *ngIf="post.author.image" [src]="post.author.image" />
                       <img *ngIf="!post.author.image"/>
                     </a>
                     <div class="info">
-                      <a href="/profile/{{post.author.username}}" class="author">{{post.author.username}}</a>
+                      <a [routerLink]="['profile/', post.author.username]" class="author">{{post.author.username}}</a>
                       <span class="date">{{post.createdAt | date: 'longDate'}}</span>
                     </div>
                     <app-favorite-button
@@ -43,7 +43,7 @@
                       {{post.favoritesCount}}
                     </app-favorite-button>
                   </div>
-                  <a href="/post/{{post.slug}}" class="preview-link">
+                  <a [routerLink]="['post/', post.slug]" class="preview-link">
                     <h1>{{ post.title }}</h1>
                     <p>{{ post.description }}</p>
                     <span>Read more...</span>
