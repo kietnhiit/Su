@@ -16,7 +16,7 @@
             [user]="user"
             (clickFollow)="clickFollowing($event)">
           </app-follow-button>
-          <a *ngIf="isUser" class="btn btn-sm btn-outline-secondary action-btn" href="/setting">
+          <a *ngIf="isUser" class="btn btn-sm btn-outline-secondary action-btn" [routerLink]="['/setting/']">
             <i class="ion-gear-a"></i> Edit Profile Settings
           </a>
         </div>

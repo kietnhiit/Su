@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { UserService, TagService, PostService } from "../core/services";
 import { Router } from "@angular/router";
+import { RequestOptions } from "../core/entity/request-options.entity";
 
 
 @Component({
@@ -10,13 +11,10 @@ import { Router } from "@angular/router";
 })
 
 export class HomeComponent {
-
-    typeFeed = 'Global';
     isLoged = false;
     tags = [];
     posts = [];
-    limit = 10;
-    offset = 0;
+    requestOpts = new RequestOptions('Global');
     currentPage = 1;
     totals = [];
     isLoading = false;
@@ -39,10 +37,10 @@ export class HomeComponent {
             data => {
                 if (data) {
                     this.isLoged = true;
-                    this.typeFeed = 'Your';
-                    this.getFeed(this.typeFeed, this.limit, this.offset);
+                    this.requestOpts.type = 'Your';
+                    this.getFeed(this.requestOpts);
                 } else {
-                    this.getFeed(this.typeFeed, this.limit, this.offset);
+                    this.getFeed(this.requestOpts);
                 }
             });
 
@@ -62,33 +60,27 @@ export class HomeComponent {
     }
     changeTab(flag) {
         this.reset();
-        this.typeFeed = flag;
-        if (!this.isLoged && this.typeFeed === 'Your') {
+        this.requestOpts.type = flag;
+        if (!this.isLoged && this.requestOpts.type === 'Your') {
             this.route.navigateByUrl('/login');
             return;
         }
-        this.getFeed(this.typeFeed, this.limit, this.offset);
+        this.getFeed(this.requestOpts);
     }
 
     tagClick(value) {
         this.reset();
-        this.typeFeed = 'Tag';
+        this.requestOpts.type = 'Tag';
         this.tagName = value;
-        this.getFeed(this.typeFeed, this.limit, this.offset, this.tagName)
+        this.getFeed(this.requestOpts, this.tagName)
     }
 
-    getFeed(type, limit, offset, tag?) {
+    getFeed(requestOpts, tag?) {
         this.isLoading = true;
-        let path = `articles?limit=${limit}&offset=${offset}`;
-        if (type === 'Your') {
-            path = `articles/feed?limit=${limit}&offset=${offset}`;
-        }
-
-        if (tag) path += '&tag=' + tag;
-        this.postService.getFeed(path).subscribe(
+        this.postService.getFeed(requestOpts, tag).subscribe(
             (res) => {
                 this.posts = res.articles;
-                this.totals = Array.from(new Array(Math.ceil(res.articlesCount / this.limit)), (val, index) => index + 1);
+                this.totals = Array.from(new Array(Math.ceil(res.articlesCount / this.requestOpts.limit)), (val, index) => index + 1);
                 this.isLoading = false;
             },
             (err) => {
@@ -100,8 +92,8 @@ export class HomeComponent {
     goToPage(pageNumber) {
         this.isLoading = true;
         this.currentPage = pageNumber;
-        this.offset = this.limit * (pageNumber - 1);
-        this.getFeed(this.typeFeed, this.limit, this.offset, this.tagName)
+        this.requestOpts.offset = this.requestOpts.limit * (pageNumber - 1);
+        this.getFeed(this.requestOpts, this.tagName)
     }
 
     onCLickFavorited(data) {
@@ -115,8 +107,9 @@ export class HomeComponent {
     reset() {
         this.posts = [];
         this.totals = [];
-        this.limit = 10;
-        this.offset = 0;
+        this.requestOpts.limit = 10;
+        this.requestOpts.offset = 0;
         this.tagName = '';
+        this.currentPage = 1;
     }
 }
